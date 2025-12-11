@@ -1,0 +1,33 @@
+{
+  "tests": [
+    {
+      "name": "basic_color_correction",
+      "input": {
+        "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+        "quality_mode": "fast",
+        "stabilization": false
+      },
+      "timeout": 300
+    },
+    {
+      "name": "look_matching",
+      "input": {
+        "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+        "reference_image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/402px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg",
+        "quality_mode": "balanced",
+        "stabilization": true
+      },
+      "timeout": 600
+    }
+  ],
+  "config": {
+    "gpuTypeId": "NVIDIA GeForce RTX 4090",
+    "gpuCount": 1,
+    "env": [],
+    "allowedCudaVersions": [
+      "12.4",
+      "12.1",
+      "11.8"
+    ]
+  }
+}

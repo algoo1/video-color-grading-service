@@ -1,0 +1,75 @@
+{
+  "title": "Video Color Grading Service",
+  "description": "Professional video color correction, grading, and look matching using the ICCV 2025 VideoColorGrading model. Optimized for GPU with FP16 and Trilinear interpolation.",
+  "type": "serverless",
+  "category": "video",
+  "iconUrl": "https://img.icons8.com/color/480/color-wheel.png",
+  "config": {
+    "runsOn": "GPU",
+    "containerDiskInGb": 40,
+    "presets": [
+      {
+        "name": "Balanced Mode",
+        "defaults": {
+          "quality_mode": "balanced",
+          "stabilization": true,
+          "output_resolution": "auto"
+        }
+      },
+      {
+        "name": "High Quality",
+        "defaults": {
+          "quality_mode": "quality",
+          "stabilization": true,
+          "output_resolution": "1080p"
+        }
+      },
+      {
+        "name": "Speed Optimized",
+        "defaults": {
+          "quality_mode": "fast",
+          "stabilization": false,
+          "output_resolution": "720p"
+        }
+      }
+    ],
+    "env": [
+      {
+        "key": "BUCKET_ENDPOINT_URL",
+        "input": {
+          "name": "S3 Endpoint URL",
+          "type": "string",
+          "description": "Optional: S3 Compatible Bucket Endpoint for uploads",
+          "default": ""
+        }
+      },
+      {
+        "key": "BUCKET_ACCESS_KEY_ID",
+        "input": {
+          "name": "S3 Access Key",
+          "type": "string",
+          "description": "Optional: S3 Access Key",
+          "default": ""
+        }
+      },
+      {
+        "key": "BUCKET_SECRET_ACCESS_KEY",
+        "input": {
+          "name": "S3 Secret Key",
+          "type": "string",
+          "description": "Optional: S3 Secret Key",
+          "default": ""
+        }
+      },
+      {
+        "key": "BUCKET_NAME",
+        "input": {
+          "name": "Bucket Name",
+          "type": "string",
+          "description": "Optional: Target Bucket Name",
+          "default": ""
+        }
+      }
+    ]
+  }
+}

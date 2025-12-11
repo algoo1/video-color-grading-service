@@ -2,30 +2,65 @@ import os
 import sys
 import subprocess
 import shutil
+import getpass
 
-def run_command(command):
+def run_command(command, stdin=None):
     try:
-        subprocess.check_call(command, shell=True)
+        if stdin:
+            subprocess.check_call(command, shell=True, input=stdin, text=True)
+        else:
+            subprocess.check_call(command, shell=True)
     except subprocess.CalledProcessError as e:
         print(f"Error running command: {command}")
         sys.exit(1)
+
+def load_env_file():
+    """Simple parser for .env files to avoid external dependencies"""
+    env_vars = {}
+    if os.path.exists(".env"):
+        with open(".env", "r") as f:
+            for line in f:
+                line = line.strip()
+                if not line or line.startswith("#"):
+                    continue
+                if "=" in line:
+                    key, value = line.split("=", 1)
+                    env_vars[key.strip()] = value.strip().strip("'").strip('"')
+    return env_vars
 
 def main():
     print("==================================================")
     print("  VideoColorGrading Build & Push Script (Python)")
     print("==================================================")
 
-    if len(sys.argv) < 2:
-        print("Error: Docker Hub username is required.")
-        print("Usage: python build_and_push.py <your_dockerhub_username>")
+    # Load from .env
+    env_vars = load_env_file()
+    
+    # Prioritize Env Vars > .env file > User Input
+    docker_username = os.environ.get("DOCKER_USERNAME") or env_vars.get("DOCKER_USERNAME")
+    docker_password = os.environ.get("DOCKER_PASSWORD") or env_vars.get("DOCKER_PASSWORD")
+
+    # If argument provided, override username (backward compatibility)
+    if len(sys.argv) > 1:
+        docker_username = sys.argv[1]
+
+    # Prompt if missing
+    if not docker_username:
+        docker_username = input("Enter Docker Hub Username: ").strip()
+    
+    if not docker_password:
+        print(f"Docker Password for user '{docker_username}' (hidden): ", end="", flush=True)
+        docker_password = getpass.getpass(prompt="")
+
+    if not docker_username or not docker_password:
+        print("Error: Docker credentials are required.")
         sys.exit(1)
 
-    docker_username = sys.argv[1]
     image_name = "video-grading"
     tag = "v1"
     full_image_name = f"{docker_username}/{image_name}:{tag}"
 
-    print(f"  Target Image: {full_image_name}")
+    print(f"\n  Target Image: {full_image_name}")
     print("==================================================")
 
     # Check for weights
@@ -36,9 +71,10 @@ def main():
         if response.lower() != 'y':
             sys.exit(1)
 
-    # Docker Login
+    # Docker Login (Securely via stdin)
     print("\nLogging in to Docker Hub...")
-    run_command("docker login")
+    # Passing password via stdin prevents it from showing up in process list/history
+    run_command(f"docker login -u {docker_username} --password-stdin", stdin=docker_password)
 
     # Build
     print(f"\nBuilding Docker Image: {full_image_name}...")
@@ -56,6 +92,7 @@ def main():
     print(f"  Container Image: {full_image_name}")
     print("  Docker Command: python runpod_handler.py")
     print("==================================================")
+
 
 if __name__ == "__main__":
     main()

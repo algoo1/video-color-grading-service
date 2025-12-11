@@ -1,6 +1,9 @@
-# VideoColorGrading Deployment Project
+# Video Color Grading Service (ICCV 2025)
 
-This project provides a production-ready backend for the **VideoColorGrading (ICCV 2025)** model, designed for SaaS deployment on GPU infrastructure (e.g., RunPod, AWS, Azure).
+[![RunPod Badge](https://img.shields.io/badge/RunPod-Deploy-blue?logo=runpod)](https://runpod.io/console/deploy?template=algoo1/video-color-grading-service)
+[![Docker Image](https://img.shields.io/docker/pulls/algoo1/video-grading.svg)](https://hub.docker.com/r/algoo1/video-grading)
+
+A production-ready SaaS backend engine for **Video Color Grading**, **Correction**, and **Look Matching** using the ICCV 2025 VideoColorGrading model.
 
 It implements a high-performance color grading pipeline using:
 - **VideoColorGrading** (ICCV 2025) for LUT generation and style transfer.
