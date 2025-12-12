@@ -17,6 +17,9 @@ WORKDIR /app
 # Clone the VideoColorGrading repository
 RUN git clone https://github.com/seunghyuns98/VideoColorGrading.git
 
+# Install repository specific requirements
+RUN pip install -r VideoColorGrading/requirements.txt || true
+
 # Copy requirements and install
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
