@@ -1,7 +1,7 @@
 # Video Color Grading Service (ICCV 2025)
 
 [![RunPod Badge](https://api.runpod.io/badge/algoo1/video-color-grading-service)](https://console.runpod.io/hub/algoo1/video-color-grading-service)
-[![Docker Image](https://img.shields.io/docker/pulls/algoo1/video-grading.svg)](https://hub.docker.com/r/algoo1/video-grading)
+[![Docker Image](https://img.shields.io/docker/pulls/algonum1/video-grading.svg)](https://hub.docker.com/r/algonum1/video-grading)
 
 A production-ready SaaS backend engine for **Video Color Grading**, **Correction**, and **Look Matching** using the ICCV 2025 VideoColorGrading model.
 
